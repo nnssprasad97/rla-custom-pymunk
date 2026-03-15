@@ -1,5 +1,5 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
-gymnasium
+gym
 pygame
 pymunk
 stable-baselines3[extra]

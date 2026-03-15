@@ -1,5 +1,5 @@
 import gym  # type: ignore # pyre-ignore
-from gymnasium import spaces  # type: ignore # pyre-ignore
+from gym import spaces  # type: ignore # pyre-ignore
 import numpy as np  # type: ignore # pyre-ignore
 import pymunk  # type: ignore # pyre-ignore
 import pygame  # type: ignore # pyre-ignore
