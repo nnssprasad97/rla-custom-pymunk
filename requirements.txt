@@ -1,8 +1,8 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
-gym
+gym==0.21.0
 pygame
 pymunk
-stable-baselines3[extra]
+stable-baselines3[extra]==1.8.0
 torch
 pandas
 matplotlib

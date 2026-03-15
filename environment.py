@@ -27,8 +27,7 @@ class DoublePendulumEnv(gym.Env):
         self.clock: Any = None
         self.space: Any = None
 
-    def reset(self, seed=None, options=None):
-        super().reset(seed=seed)
+    def reset(self):
         self.space = pymunk.Space()
         self.space.gravity = (0, -981)
 
