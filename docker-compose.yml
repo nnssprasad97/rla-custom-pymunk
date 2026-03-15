@@ -8,7 +8,13 @@ services:
     build: .
     volumes:
       - .:/app
-    command: python train.py --timesteps 200000 --reward_type shaped
+    command: python train.py --timesteps 200000 --reward_type shaped --save_path models/shaped
+
+  train_baseline:
+    build: .
+    volumes:
+      - .:/app
+    command: python train.py --timesteps 200000 --reward_type baseline --save_path models/baseline
   evaluate:
     build: .
     environment:

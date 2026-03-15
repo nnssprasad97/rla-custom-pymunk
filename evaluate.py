@@ -17,12 +17,12 @@ def main():
     env = DoublePendulumEnv(reward_type='shaped')
     model = PPO.load(args.model_path, env=env)
 
-    obs, _ = env.reset()
+    obs = env.reset()
     frames = []
 
     for _ in range(1000):
         action, _states = model.predict(obs, deterministic=True)
-        obs, reward, terminated, truncated, info = env.step(action)
+        obs, reward, done, info = env.step(action)
         env.render()
         
         if args.gif_path:
@@ -33,8 +33,8 @@ def main():
             frame = np.transpose(frame, (1, 0, 2)) 
             frames.append(frame)
 
-        if terminated or truncated:
-            obs, _ = env.reset()
+        if done:
+            obs = env.reset()
 
     env.close()
 

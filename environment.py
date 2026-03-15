@@ -1,4 +1,4 @@
-import gymnasium as gym  # type: ignore # pyre-ignore
+import gym  # type: ignore # pyre-ignore
 from gymnasium import spaces  # type: ignore # pyre-ignore
 import numpy as np  # type: ignore # pyre-ignore
 import pymunk  # type: ignore # pyre-ignore
@@ -21,7 +21,7 @@ class DoublePendulumEnv(gym.Env):
         
         # Obs space: Cart x, Cart vx, Pole1 angle, Pole1 angular vel, Pole2 angle, Pole2 angular vel
         high = np.array([np.inf, np.inf, np.pi, np.inf, np.pi, np.inf], dtype=np.float32)
-        self.observation_space = spaces.Box(low=-high, high=high, dtype=np.float32)
+        self.observation_space = spaces.Box(low=-high, high=high, shape=(6,), dtype=np.float32)
         
         self.screen: Any = None
         self.clock: Any = None
@@ -78,7 +78,7 @@ class DoublePendulumEnv(gym.Env):
                        self.pole1_body, self.pole1_shape, self.pivot1, 
                        self.pole2_body, self.pole2_shape, self.pivot2)
 
-        return self._get_obs(), {}
+        return self._get_obs()
 
     def _get_obs(self):
         # Normalize positions relative to screen center
@@ -120,10 +120,9 @@ class DoublePendulumEnv(gym.Env):
             reward = baseline_reward
 
         # Episode ends if cart goes off screen
-        terminated = bool(abs(cart_x) > 1.0)
-        truncated = False
+        done = bool(abs(cart_x) > 1.0)
 
-        return obs, reward, terminated, truncated, {}
+        return obs, reward, done, {}
 
     def render(self):
         if self.screen is None:
