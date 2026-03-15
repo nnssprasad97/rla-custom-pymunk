@@ -3,3 +3,10 @@ __pycache__/
 build_err.log
 build_log.txt
 .vscode/
+*.egg-info/
+dist/
+*.pyc
+.env
+
+# Model binaries (large files — use Git LFS if needed)
+models/*.zip
