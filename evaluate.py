@@ -3,7 +3,8 @@ import imageio
 import os
 import pygame
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
+if not os.environ.get("DISPLAY"):
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 from stable_baselines3 import PPO
 from environment import DoublePendulumEnv

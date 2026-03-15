@@ -123,7 +123,7 @@ class DoublePendulumEnv(gym.Env):
 
         return obs, reward, done, {}
 
-    def render(self):
+    def render(self, mode='human'):
         if self.screen is None:
             pygame.init()
             self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
