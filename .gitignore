@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+logs/
+models/
+build_err.log
+build_log.txt
+*.zip
+.vscode/
