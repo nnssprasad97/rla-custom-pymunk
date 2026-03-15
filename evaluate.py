@@ -1,6 +1,7 @@
 import argparse
 import imageio
 import os
+import numpy as np
 import pygame
 
 if not os.environ.get("DISPLAY"):
@@ -8,6 +9,7 @@ if not os.environ.get("DISPLAY"):
 
 from stable_baselines3 import PPO
 from environment import DoublePendulumEnv
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -18,31 +20,31 @@ def main():
     env = DoublePendulumEnv(reward_type='shaped')
     model = PPO.load(args.model_path, env=env)
 
-    obs = env.reset()
+    obs, info = env.reset()
     frames = []
 
     for _ in range(1000):
         action, _states = model.predict(obs, deterministic=True)
-        obs, reward, done, info = env.step(action)
+        obs, reward, terminated, truncated, info = env.step(action)
         env.render()
-        
+
         if args.gif_path:
             # Capture pygame screen for GIF
             frame = pygame.surfarray.array3d(pygame.display.get_surface())
-            # Swap axes to match imageio format (width, height, channels) -> (height, width, channels)
-            import numpy as np
-            frame = np.transpose(frame, (1, 0, 2)) 
+            # Swap axes: (width, height, channels) -> (height, width, channels)
+            frame = np.transpose(frame, (1, 0, 2))
             frames.append(frame)
 
-        if done:
-            obs = env.reset()
+        if terminated or truncated:
+            obs, info = env.reset()
 
     env.close()
 
     if args.gif_path and frames:
-        os.makedirs(os.path.dirname(args.gif_path), exist_ok=True)
+        os.makedirs(os.path.dirname(args.gif_path) or '.', exist_ok=True)
         imageio.mimsave(args.gif_path, frames, fps=60)
         print(f"GIF saved to {args.gif_path}")
+
 
 if __name__ == '__main__':
     main()
