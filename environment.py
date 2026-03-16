@@ -90,6 +90,7 @@ class DoublePendulumEnv(gym.Env):
             self.pole2_body, self.pole2_shape, self.pivot2,
         )
 
+        self.steps_count = 0
         obs = self._get_obs()
         info: dict = {}
         return obs, info
@@ -133,9 +134,10 @@ class DoublePendulumEnv(gym.Env):
         else:
             reward = baseline_reward
 
-        # Episode ends if cart goes off screen
-        terminated = bool(abs(cart_x) > 1.0)
-        truncated = False
+        # Episode ends if cart goes too far or max steps reached
+        self.steps_count += 1
+        terminated = bool(abs(cart_x) > 0.8)
+        truncated = bool(self.steps_count >= 1000)
 
         return obs, float(reward), terminated, truncated, {}
 
